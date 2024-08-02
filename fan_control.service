@@ -1,0 +1,14 @@
+[Unit]
+Description=Fan Control Daemon
+After=network.target syslog.target
+Wants=syslog.target
+
+[Service]
+ExecStart=/usr/local/bin/fan_control
+User=root
+Group=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
