@@ -39,7 +39,7 @@ int main() {
     }
 
     load_config();
-    int velocity = 0;
+    int velocity = OFF;
     char buf[100];
 
     pinMode(FAN_PIN, PWM_OUTPUT);
@@ -49,8 +49,10 @@ int main() {
 
     pwmWrite(FAN_PIN, 0);
 
+    log_message("before while loop", LOG_FILE);
     
     while (1) {
+        log_message("in loop", LOG_FILE);
         float temp = get_cpu_temperature();
         snprintf(buf, 100, "CPU-temp: %.2f", temp);
         log_message(buf, LOG_FILE);
@@ -70,6 +72,7 @@ int main() {
         } else if (temp <= temp1 && velocity != OFF) {
             syslog(LOG_INFO, "fan speed adjusted to OFF");
             log_message("Turned fan OFF", LOG_FILE);
+            velocity = OFF;
             pwmWrite(FAN_PIN, 0);
         }
         sleep(5);

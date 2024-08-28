@@ -43,5 +43,11 @@ undo :
 	mv $(SERVICE_PATH)/fan_control.service .
 	mv $(CONFIG_PATH)/fan_control.conf .
 
+clear :
+	rm $(SERVICE_PATH)/fan_control.service
+	rm $(CONFIG_PATH)/fan_control.conf
+	rm /var/log/fancontrol.log
+	rm $(BIN_PATH)/$(TARGET)
+
 
 .PHONY : all o_files service config clean undo
