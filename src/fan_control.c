@@ -21,7 +21,11 @@ int main() {
         perror("Fan control could not be daemonized");
         exit(EXIT_FAILURE);
     }
+    log_message("Before sleep", LOG_FILE);
 
+    sleep(5);
+
+    log_message("after sleep", LOG_FILE);
 
     openlog("fan_control", LOG_PID | LOG_CONS, LOG_DAEMON);
 
