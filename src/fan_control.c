@@ -60,26 +60,31 @@ int main() {
         float temp = get_cpu_temperature();
         snprintf(buf, 100, "CPU-temp: %.2f", temp);
         log_message(buf, LOG_FILE);
+
+        if(temp>20) {
+            log_message("über 20", LOG_FILE);
+        }
         
         //fan_control action
 
-        if (temp > temp2 && velocity != HIGH) {
+        if ((temp > temp2) && (velocity != HIGH)) {
             syslog(LOG_INFO, "fan speed adjusted to HIGH");
             log_message("Changed to high fan speed", LOG_FILE);
             velocity = HIGH;
             pwmWrite(FAN_PIN, 1024);
-        } else if (temp > temp1 && velocity != LOW) {
+        } else if ((temp > temp1) && (velocity != LOW)) {
             syslog(LOG_INFO, "fan speed adjusted to LOW");
             log_message("Changed to low fan speed", LOG_FILE);
             velocity = LOW;
             pwmWrite(FAN_PIN, 500);
-        } else if (temp <= temp1 && velocity != OFF) {
+        } else if ((temp <= temp1) && (velocity != OFF)) {
             syslog(LOG_INFO, "fan speed adjusted to OFF");
             log_message("Turned fan OFF", LOG_FILE);
             velocity = OFF;
             pwmWrite(FAN_PIN, 0);
         }
-        sleep(5);
+
+        sleep(10);
 
     }
 
