@@ -8,9 +8,9 @@
 
 #define FAN_PIN 1
 
-#define HIGH  2
-#define LOW  1
-#define OFF  0
+#define MAX_F 2
+#define MID_F 1
+#define OFF_F 0
 
 
 typedef struct configs {

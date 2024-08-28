@@ -61,12 +61,6 @@ int main() {
         snprintf(buf, 200, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2);
         log_message(buf, LOG_FILE);
 
-        if(temp>20) {
-            log_message("über 20", LOG_FILE);
-
-        }
-
-
         
         //fan_control action
 
