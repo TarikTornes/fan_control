@@ -43,7 +43,7 @@ int main() {
     }
 
     load_config();
-    int velocity = OFF;
+    int velocity = OFF_F;
     char buf[200];
 
     pinMode(FAN_PIN, PWM_OUTPUT);
@@ -64,20 +64,20 @@ int main() {
         
         //fan_control action
 
-        if ((temp > temp2) && (velocity != HIGH)) {
-            syslog(LOG_INFO, "fan speed adjusted to HIGH");
+        if ((temp > temp2) && (velocity != MAX_F)) {
+            syslog(LOG_INFO, "fan speed adjusted to MAX_F");
             log_message("Changed to high fan speed", LOG_FILE);
-            velocity = HIGH;
+            velocity = MAX_F;
             pwmWrite(FAN_PIN, 1024);
-        } else if ((temp > temp1) && (velocity != LOW)) {
-            syslog(LOG_INFO, "fan speed adjusted to LOW");
+        } else if ((temp > temp1) && (velocity != MID_F)) {
+            syslog(LOG_INFO, "fan speed adjusted to MID_F");
             log_message("Changed to low fan speed", LOG_FILE);
-            velocity = LOW;
+            velocity = MID_F;
             pwmWrite(FAN_PIN, 500);
-        } else if ((temp <= temp1) && (velocity != OFF)) {
-            syslog(LOG_INFO, "fan speed adjusted to OFF");
-            log_message("Turned fan OFF", LOG_FILE);
-            velocity = OFF;
+        } else if ((temp <= temp1) && (velocity != OFF_F)) {
+            syslog(LOG_INFO, "fan speed adjusted to OFF_F");
+            log_message("Turned fan OFF_F", LOG_FILE);
+            velocity = OFF_F;
             pwmWrite(FAN_PIN, 0);
         }
 
