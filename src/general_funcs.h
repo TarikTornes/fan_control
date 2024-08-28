@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 #define CONFIG_FILE "/etc/fan_control.conf"
-#define LOG_FILE "/var/log/fancontrol.log"
+#define LOG_FILE "/var/log/fan_control.log"
 
 #define FAN_PIN 1
 

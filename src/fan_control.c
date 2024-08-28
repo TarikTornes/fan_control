@@ -8,8 +8,8 @@
 
 
 
-int temp1 = 30;
-int temp2 = 50;
+float temp1 = 30;
+float temp2 = 50;
 
 
 int main() {
@@ -44,7 +44,7 @@ int main() {
 
     load_config();
     int velocity = OFF;
-    char buf[100];
+    char buf[200];
 
     pinMode(FAN_PIN, PWM_OUTPUT);
     pwmSetMode(PWM_MODE_MS);
@@ -58,12 +58,15 @@ int main() {
     while (1) {
         log_message("in loop", LOG_FILE);
         float temp = get_cpu_temperature();
-        snprintf(buf, 100, "CPU-temp: %.2f", temp);
+        snprintf(buf, 200, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2);
         log_message(buf, LOG_FILE);
 
         if(temp>20) {
             log_message("über 20", LOG_FILE);
+
         }
+
+
         
         //fan_control action
 

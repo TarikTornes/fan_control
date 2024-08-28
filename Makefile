@@ -46,7 +46,7 @@ undo :
 clear :
 	rm $(SERVICE_PATH)/fan_control.service
 	rm $(CONFIG_PATH)/fan_control.conf
-	rm /var/log/fancontrol.log
+	rm /var/log/fan_control.log
 	rm $(BIN_PATH)/$(TARGET)
 
 
