@@ -6,6 +6,12 @@
 #define CONFIG_FILE "/etc/fancontrol.conf"
 #define LOG_FILE "/var/log/fancontrol.log"
 
+#define FAN_PIN 1
+
+#define HIGH  2
+#define LOW  1
+#define OFF  0
+
 
 typedef struct configs {
     int temp1;
@@ -23,5 +29,7 @@ void load_config();
 void current_time(char*, size_t);
 
 int log_message(const char*, const char *);
+
+float get_cpu_temperature();
 
 #endif

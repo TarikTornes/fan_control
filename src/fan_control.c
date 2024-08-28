@@ -4,11 +4,13 @@
 #include <stdlib.h>
 #include <syslog.h>
 #include <signal.h>
+#include <wiringPi.h>
 
 
 
 int temp1 = 30;
 int temp2 = 50;
+
 
 int main() {
 
@@ -30,20 +32,47 @@ int main() {
     syslog(LOG_NOTICE, "fan_control daemon started");
     log_message("fan_control daemon started", LOG_FILE);
 
+    if (wiringPiSetup() == -1) {
+        syslog(LOG_WARNING, "wiringPi could not be setup");
+        log_message("wiringPi was not found", LOG_FILE);
+        exit(EXIT_FAILURE);
+    }
 
     load_config();
-    int iter = 0;
+    int velocity = 0;
     char buf[100];
+
+    pinMode(FAN_PIN, PWM_OUTPUT);
+    pwmSetMode(PWM_MODE_MS);
+    pwmSetClock(192);
+    pwmSetRange(1024);
+
+    pwmWrite(FAN_PIN, 0);
+
     
     while (1) {
+        float temp = get_cpu_temperature();
+        snprintf(buf, 100, "CPU-temp: %.2f", temp);
+        log_message(buf, LOG_FILE);
         
         //fan_control action
 
-        iter++;
-        sleep(8);
-        snprintf(buf,100, "Working on %d iteration", iter);
-        log_message(buf,LOG_FILE);
-
+        if (temp > temp2 && velocity != HIGH) {
+            syslog(LOG_INFO, "fan speed adjusted to HIGH");
+            log_message("Changed to high fan speed", LOG_FILE);
+            velocity = HIGH;
+            pwmWrite(FAN_PIN, 1024);
+        } else if (temp > temp1 && velocity != LOW) {
+            syslog(LOG_INFO, "fan speed adjusted to LOW");
+            log_message("Changed to low fan speed", LOG_FILE);
+            velocity = LOW;
+            pwmWrite(FAN_PIN, 500);
+        } else if (temp <= temp1 && velocity != OFF) {
+            syslog(LOG_INFO, "fan speed adjusted to OFF");
+            log_message("Turned fan OFF", LOG_FILE);
+            pwmWrite(FAN_PIN, 0);
+        }
+        sleep(5);
 
     }
 
