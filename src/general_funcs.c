@@ -7,8 +7,8 @@
 #include <syslog.h>
 
 
-extern int temp1;
-extern int temp2;
+extern float temp1;
+extern float temp2;
 
 void signal_handler(int sig){
 
@@ -82,7 +82,7 @@ settings get_confs() {
         i++;
         
         if(strstr(line,"temp1") != NULL) {
-            if(sscanf(line, "temp1 : %d\n", &(res->temp1)) != 1) {
+            if(sscanf(line, "temp1 : %f\n", &(res->temp1)) != 1) {
                 log_message("WARNING: temp1 could not be read from config-file", LOG_FILE);
                 free(res);
                 fclose(fb);
@@ -92,7 +92,8 @@ settings get_confs() {
         }
 
         if(strstr(line,"temp2") != NULL) {
-            if(sscanf(line, "temp2 = %d\n", &(res->temp2)) != 1) {
+            log_message(line, LOG_FILE);
+            if(sscanf(line, "temp2 : %f\n", &(res->temp2)) != 1) {
                 log_message("WARNING: temp2 could not be read from config-file", LOG_FILE);
                 free(res);
                 fclose(fb);

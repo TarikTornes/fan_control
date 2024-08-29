@@ -14,8 +14,8 @@
 
 
 typedef struct configs {
-    int temp1;
-    int temp2;
+    float temp1;
+    float temp2;
 } confs;
 
 typedef confs* settings;
