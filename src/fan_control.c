@@ -16,16 +16,14 @@ int main() {
 
 
     // LOGGING MESSAGE START
-    
+    /* 
     if (daemon(0, 0) == -1) {
         perror("Fan control could not be daemonized");
         exit(EXIT_FAILURE);
     }
-    log_message("Before sleep", LOG_FILE);
+    */
 
-    sleep(5);
 
-    log_message("after sleep", LOG_FILE);
 
     openlog("fan_control", LOG_PID | LOG_CONS, LOG_DAEMON);
 
@@ -56,10 +54,9 @@ int main() {
     log_message("before while loop", LOG_FILE);
     
     while (1) {
-        log_message("in loop", LOG_FILE);
         float temp = get_cpu_temperature();
-        snprintf(buf, 200, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2);
-        log_message(buf, LOG_FILE);
+        //snprintf(buf, 200, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2);
+        //log_message(buf, LOG_FILE);
 
         
         //fan_control action
