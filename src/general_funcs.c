@@ -65,7 +65,8 @@ settings get_confs() {
         char mess[256];
         sprintf(mess, "Config file %s could not be read", CONFIG_FILE);
         log_message(mess, LOG_FILE);
-        return res;
+        free(res);
+        return NULL;
     }
 
     char line[256];
