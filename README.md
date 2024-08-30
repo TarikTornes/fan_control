@@ -12,7 +12,7 @@ This project was developed as a hands-on exercise to gain familiarity with the C
 - **Compatibility:** While the instructions provided are specific to the Raspberry Pi 4B, they are likely applicable to other Raspberry Pi models running a Debian-based distribution.
 
 ### Cooling System
-- **Recommended Cooling System:** The project is designed for use with the [Ice Tower CPU Cooling Fan] (https://52pi.com/products/52pi-ultra-thin-ice-tower-cooler-cooling-fan-for-raspberry-pi-4-model-b-cpu-fan).
+- **Recommended Cooling System:** The project is designed for use with the [Ice Tower CPU Cooling Fan](https://52pi.com/products/52pi-ultra-thin-ice-tower-cooler-cooling-fan-for-raspberry-pi-4-model-b-cpu-fan).
 
 - **Alternative Cooling Systems:** Other cooling systems can be used as long as they connect the fan to GPIO pins via 5V, GND, and TXD. To ensure speed control, the fan should support PWM (Pulse Width Modulation).
 
