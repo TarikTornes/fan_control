@@ -15,14 +15,12 @@ float temp2 = 50;
 int main() {
 
 
-    // LOGGING MESSAGE START
     /* 
     if (daemon(0, 0) == -1) {
         perror("Fan control could not be daemonized");
         exit(EXIT_FAILURE);
     }
     */
-
 
 
     openlog("fan_control", LOG_PID | LOG_CONS, LOG_DAEMON);
@@ -42,7 +40,7 @@ int main() {
 
     load_config();
     int velocity = OFF_F;
-    char buf[200];
+    //char buf[200];
 
     pinMode(FAN_PIN, PWM_OUTPUT);
     pwmSetMode(PWM_MODE_MS);
@@ -55,6 +53,8 @@ int main() {
     while (1) {
         float temp = get_cpu_temperature();
         //snprintf(buf, 200, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2);
+        syslog(LOG_INFO, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2); 
+
         //log_message(buf, LOG_FILE);
 
         
