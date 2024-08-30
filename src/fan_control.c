@@ -51,7 +51,6 @@ int main() {
 
     pwmWrite(FAN_PIN, 0);
 
-    log_message("before while loop", LOG_FILE);
     
     while (1) {
         float temp = get_cpu_temperature();
