@@ -1,3 +1,5 @@
+<img src="./resources/logoFanControl.jpeg" width="40%" height="40%" align="right">
+
 # Fan\_Control (Beta)
 A simple and lightweight daemon for controlling the cooling system of your Raspberry Pi.
 
