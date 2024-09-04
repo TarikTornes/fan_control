@@ -1,15 +1,36 @@
 #include "general_funcs.h"
-#include <stdio.h>
+#include "config_utils.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <syslog.h>
 #include <signal.h>
 #include <wiringPi.h>
 
+#define FAN_PIN
+
+#define HIGH_FSPEED 2
+#define LOW_FSPEED 1
+#define OFF_FSPEED 0
 
 
-float temp1 = 30;
-float temp2 = 50;
+confs global_configs = {.temp1 = 30, .temp2 = 50};
+
+
+void signal_handler(int sig){
+
+    if(sig==SIGTERM) {
+        syslog(LOG_INFO, "fan_control daemon is gracefully shutdown");
+        log_message("fan_control is gracefully shutdown", LOG_FILE);
+        closelog();
+        exit(EXIT_SUCCESS);
+    } else if(sig==SIGHUP) {
+        syslog(LOG_INFO, "Received SIGHUP signal: config is reloaded");
+        load_config(&global_configs);
+    } else {
+        syslog(LOG_WARNING, "Some unexpected signal %d appeared", sig);
+    }
+
+}
 
 
 int main() {
@@ -38,8 +59,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    load_config();
-    int velocity = OFF_F;
+    load_config(&global_configs);
+    int velocity = OFF_FSPEED;
     //char buf[200];
 
     pinMode(FAN_PIN, PWM_OUTPUT);
@@ -53,27 +74,27 @@ int main() {
     while (1) {
         float temp = get_cpu_temperature();
         //snprintf(buf, 200, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2);
-        syslog(LOG_INFO, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, temp1, temp2); 
+        syslog(LOG_INFO, "CPU-temp: %.2f, veloc: %d, temp1: %.2f, temp2: %.2f", temp, velocity, global_configs.temp1, global_configs.temp2); 
 
         //log_message(buf, LOG_FILE);
 
         
         //fan_control action
 
-        if ((temp > temp2) && (velocity != MAX_F)) {
-            syslog(LOG_INFO, "fan speed adjusted to MAX_F");
+        if ((temp > global_configs.temp2) && (velocity != HIGH_FSPEED)) {
+            syslog(LOG_INFO, "fan speed adjusted to HIGH_FSPEED");
             log_message("Changed to high fan speed", LOG_FILE);
-            velocity = MAX_F;
+            velocity = HIGH_FSPEED;
             pwmWrite(FAN_PIN, 1024);
-        } else if ((temp > temp1) && (velocity != MID_F)) {
-            syslog(LOG_INFO, "fan speed adjusted to MID_F");
+        } else if ((temp > global_configs.temp1) && (velocity != LOW_FSPEED)) {
+            syslog(LOG_INFO, "fan speed adjusted to LOW_FSPEED");
             log_message("Changed to low fan speed", LOG_FILE);
-            velocity = MID_F;
+            velocity = LOW_FSPEED;
             pwmWrite(FAN_PIN, 500);
-        } else if ((temp <= temp1) && (velocity != OFF_F)) {
-            syslog(LOG_INFO, "fan speed adjusted to OFF_F");
-            log_message("Turned fan OFF_F", LOG_FILE);
-            velocity = OFF_F;
+        } else if ((temp <= global_configs.temp1) && (velocity != OFF_FSPEED)) {
+            syslog(LOG_INFO, "fan speed adjusted to OFF_FSPEED");
+            log_message("Turned fan OFF_FSPEED", LOG_FILE);
+            velocity = OFF_FSPEED;
             pwmWrite(FAN_PIN, 0);
         }
 
