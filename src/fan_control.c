@@ -1,4 +1,5 @@
-#include "general_funcs.h"
+#include "general_utils.h"
+#include "logging_utils.h"
 #include "config_utils.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -107,7 +108,6 @@ int main() {
     closelog();
     return(EXIT_SUCCESS);
 
-    return 0;
 }
 
 

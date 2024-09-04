@@ -1,12 +1,12 @@
 #include "config_utils.h"
-#include "general_funcs.h"
+#include "logging_utils.h"
 #include <syslog.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 
-void load_config(settings set) {
+int load_config(settings set) {
     settings cf = get_confs();
     
     syslog(LOG_INFO, "Loading configs");
@@ -17,11 +17,14 @@ void load_config(settings set) {
         free(cf);
         syslog(LOG_INFO, "Configs successfully reloaded!"); 
         //log_message("Reloaded configs", LOG_FILE);
+        return SUCC_C;
 
     } else {
 
         syslog(LOG_WARNING, "Something went wrong while loading configs");
         //log_message("Something went wrong while reloading configs", LOG_FILE);
+
+        return ERR_C;
     }
 }
 
@@ -82,14 +85,6 @@ settings get_confs() {
 
         }
         
-        /*
-        if(strstr(line,"name1") != NULL) {
-            if(sscanf(line, "name1 = %19s\n", &(res->name)) != 1) {
-                perror("Could not read name1");
-            }
-
-        }
-        */
 
         if(strstr(line,"[") != NULL && strstr(line, "]") != NULL) {
             break;

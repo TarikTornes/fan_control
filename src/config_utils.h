@@ -12,6 +12,10 @@
 /** location of config file */
 #define CONFIG_FILE "/etc/fan_control.conf"
 
+/** semantic macros for successful/problematic termination of methods */
+#define SUCC_C 1
+#define ERR_C 0
+
 
 /**
  * \brief represents a data type that will store values of the config file
@@ -37,9 +41,9 @@ settings get_confs();
 
 /**
  * \brief reloads configurations for the daemon
- * \param set is a pointer to the confs struct which will be in the global scope of the main funciton
+ * \param pointer to the confs struct which will be in the global scope of the main funciton
  */
-int load_config(settings set);
+int load_config(settings);
 
 
 #endif
