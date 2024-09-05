@@ -1,6 +1,7 @@
 #include "general_utils.h"
 #include "logging_utils.h"
 #include "config_utils.h"
+#include "fan_utils.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <syslog.h>
@@ -8,6 +9,10 @@
 #include <wiringPi.h>
 
 #define FAN_PIN
+
+#define PWM_RANGE 1024   // Max range for PWM
+#define PWM_LOW_SPEED 500
+#define FAN_CONTROL_INTERVAL 10  // Sleep time in seconds
 
 #define HIGH_FSPEED 2
 #define LOW_FSPEED 1
@@ -68,7 +73,6 @@ int main() {
     pwmSetMode(PWM_MODE_MS);
     pwmSetClock(192);
     pwmSetRange(1024);
-
     pwmWrite(FAN_PIN, 0);
 
     
@@ -83,23 +87,14 @@ int main() {
         //fan_control action
 
         if ((temp > global_configs.temp2) && (velocity != HIGH_FSPEED)) {
-            syslog(LOG_INFO, "fan speed adjusted to HIGH_FSPEED");
-            log_message("Changed to high fan speed", LOG_FILE);
-            velocity = HIGH_FSPEED;
-            pwmWrite(FAN_PIN, 1024);
+            adjust_fan_speed(&velocity, HIGH_FSPEED, "Fan adjusted to HIGH SPEED", PWM_RANGE);
         } else if ((temp > global_configs.temp1) && (velocity != LOW_FSPEED)) {
-            syslog(LOG_INFO, "fan speed adjusted to LOW_FSPEED");
-            log_message("Changed to low fan speed", LOG_FILE);
-            velocity = LOW_FSPEED;
-            pwmWrite(FAN_PIN, 500);
+            adjust_fan_speed(&velocity, LOW_FSPEED, "Fan adjusted to LOW SPEED", PWM_LOW_SPEED);
         } else if ((temp <= global_configs.temp1) && (velocity != OFF_FSPEED)) {
-            syslog(LOG_INFO, "fan speed adjusted to OFF_FSPEED");
-            log_message("Turned fan OFF_FSPEED", LOG_FILE);
-            velocity = OFF_FSPEED;
-            pwmWrite(FAN_PIN, 0);
+            adjust_fan_speed(&velocity, OFF_FSPEED, "Fan adjusted to OFF", 0);
         }
 
-        sleep(10);
+        sleep(FAN_CONTROL_INTERVAL);
 
     }
 
