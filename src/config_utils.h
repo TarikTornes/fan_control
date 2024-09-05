@@ -16,6 +16,12 @@
 #define SUCC_C 1
 #define ERR_C 0
 
+/** default temperature thresholds */
+#define DEFAULT_TEMP1 30
+#define DEFAULT_TEMP2 50
+
+
+
 
 /**
  * \brief represents a data type that will store values of the config file
@@ -30,6 +36,13 @@ typedef struct configs {
 
 /** represents a pointer of the struct confs */
 typedef confs* settings;
+
+
+/**
+ * \brief: initializes temperature thresholds to the default values
+ * \param: pointer to confs in global scope
+ */
+void init_global_configs(settings);
 
 
 /**

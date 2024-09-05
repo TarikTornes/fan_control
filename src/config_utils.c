@@ -6,6 +6,13 @@
 #include <string.h>
 
 
+
+void init_global_configs(settings set) {
+    set->temp1 = DEFAULT_TEMP1;
+    set->temp2 = DEFAULT_TEMP2;
+}
+
+
 int load_config(settings set) {
     settings cf = get_confs();
     
