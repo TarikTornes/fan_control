@@ -1,6 +1,6 @@
 <img src="./resources/logoFanControl.png" width="40%" height="40%" align="right">
 
-# Fan\_Control (0.2.0)
+# Fan\_Control (0.3.0)
 A simple and lightweight daemon for controlling the cooling system of your Raspberry Pi.
 
 This project was developed as a hands-on exercise to gain familiarity with the C programming language and to explore the setup of a DIY home server.
