@@ -9,7 +9,30 @@
  *
  *******************************************************************************/
 
+/** semantic macros for speed levels */
+#define HIGH_FSPEED 2
+#define LOW_FSPEED 1
+#define OFF_FSPEED 0
 
+/** GPIO pin */
+#define FAN_PIN 1
+
+/** semantic macro for max pwm range */
+#define PWM_RANGE 1024
+/** semantic macro for pwm setting on mid fan speed */
+#define PWM_LOW_SPEED 500
+
+
+/**
+ * \brief: initializes the velocity parameter
+ * \param: int pointer to global velocity parameter
+ */
+void init_fanveloc(int*);
+
+/**
+ * \brief: initializes wiringPi setup
+ */
+void init_fansettings();
 
 /**
  * \brief: adjusts the fan speed of the cooling system with necessary logging etc
