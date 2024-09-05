@@ -2,7 +2,7 @@ CC := gcc
 CFLAGS := -Wall -O2
 
 TARGET := fan_control
-OBJS := fan_control.o general_funcs.o
+OBJS := fan_control.o general_utils.o fan_utils.o logging_utils.o config_utils.o
 
 BUILD_DIR := ./build
 SRC_DIR := ./src
@@ -13,18 +13,31 @@ CONFIG_PATH = /etc
 
 
 all: $(BUILD_DIR) o_files service config
-	$(CC) -o $(BIN_PATH)/$(TARGET) $(BUILD_DIR)/fan_control.o $(BUILD_DIR)/general_funcs.o -lwiringPi
+	$(CC) -o $(BIN_PATH)/$(TARGET) $(patsubst %, $(BUILD_DIR)/%, $(OBJS)) -lwiringPi
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 o_files : $(patsubst %, $(BUILD_DIR)/%, $(OBJS))
 
-$(BUILD_DIR)/fan_control.o : $(SRC_DIR)/fan_control.c $(SRC_DIR)/general_funcs.h | $(BUILD_DIR)
+$(BUILD_DIR)/fan_control.o : $(SRC_DIR)/fan_control.c $(SRC_DIR)/general_utils.h $(SRC_DIR)/fan_utils.h $(SRC_DIR)/logging_utils.h $(SRC_DIR)/config_utils.h | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/fan_control.c -o $(BUILD_DIR)/fan_control.o -lwiringPi
 
-$(BUILD_DIR)/general_funcs.o : $(SRC_DIR)/general_funcs.c $(SRC_DIR)/general_funcs.h | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/general_funcs.c -o $(BUILD_DIR)/general_funcs.o
+$(BUILD_DIR)/fan_utils.o : $(SRC_DIR)/fan_utils.c $(SRC_DIR)/fan_utils.h $(SRC_DIR)/logging_utils.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/fan_utils.c -o $(BUILD_DIR)/fan_utils.o -lwiringPi
+
+$(BUILD_DIR)/general_utils.o : $(SRC_DIR)/general_utils.c $(SRC_DIR)/general_utils.h $(SRC_DIR)/logging_utils.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/general_utils.c -o $(BUILD_DIR)/general_utils.o
+
+$(BUILD_DIR)/logging_utils.o : $(SRC_DIR)/logging_utils.c $(SRC_DIR)/logging_utils.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/logging_utils.c -o $(BUILD_DIR)/logging_utils.o
+
+$(BUILD_DIR)/config_utils.o : $(SRC_DIR)/config_utils.c $(SRC_DIR)/config_utils.h $(SRC_DIR)/logging_utils.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/config_utils.c -o $(BUILD_DIR)/config_utils.o
+
+
+
+
 
 service : fan_control.service
 	if [ ! -f $(SERVICE_PATH)/fan_control.service ]; then \
