@@ -82,7 +82,6 @@ settings get_confs() {
         }
 
         if(strstr(line,"temp2") != NULL) {
-            log_message(line, LOG_FILE);
             if(sscanf(line, "temp2 : %f\n", &(res->temp2)) != 1) {
                 log_message("WARNING: temp2 could not be read from config-file", LOG_FILE);
                 free(res);
