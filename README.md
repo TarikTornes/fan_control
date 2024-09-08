@@ -1,6 +1,6 @@
 <img src="./resources/logoFanControl.png" width="40%" height="40%" align="right">
 
-# Fan\_Control (0.3.1)
+# Fan\_Control (0.3.2)
 A simple and lightweight daemon for controlling the cooling system of your Raspberry Pi.
 
 This project was developed as a hands-on exercise to gain familiarity with the C programming language and to explore the setup of a DIY home server.
@@ -15,6 +15,17 @@ This project was developed as a hands-on exercise to gain familiarity with the C
 - **Recommended Cooling System:** The project is designed for use with the [Ice Tower CPU Cooling Fan](https://52pi.com/products/52pi-ultra-thin-ice-tower-cooler-cooling-fan-for-raspberry-pi-4-model-b-cpu-fan).
 
 - **Alternative Cooling Systems:** Other cooling systems can be used as long as they connect the fan to GPIO pins via 5V, GND, and TXD. To ensure speed control, the fan should support PWM (Pulse Width Modulation).
+
+### GPIO-Pin Setup
+To control the fan using PWM, you need to connect the cooling system to the appropriate GPIO pins on the Raspberry Pi. Ensure the following connections are made:
+- Red wire: Connect to 5V power (e.g. Pin 4)
+- Black wire: Connect to a Ground pin (e.g. Pin 6)
+- Blue wire: Connect to the PWM control pin (Pin 12 on physical header / GPIO 18)
+
+<p align="center">
+  <img src="./resources/raspiGpioExample.jpg" width="45%" alt="Wiring Diagram">
+  <img src="./resources/gpioPinLayout.png" width="45%" alt="GPIO Pinout">
+</p>
 
 
 ## Installation
